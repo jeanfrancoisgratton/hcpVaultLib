@@ -1,6 +1,6 @@
 // hcpVaultLib
 // Written by J.F. Gratton <jean-francois@famillegratton.net>
-// auth/enableAuthMethod.go :
+// auth/enableDisableMethod.go :
 // Original file timestamp: 2024.07.31 06:03:36
 
 package auth
