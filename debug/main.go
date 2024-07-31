@@ -1,4 +1,4 @@
-// customError
+// hcpVaultLib
 // Written by J.F. Gratton <jean-francois@famillegratton.net>
 // Original filename: debug/main.go
 // Original timestamp: 2024/04/01 15:56
@@ -12,16 +12,8 @@
 // WARNING  WARNING  WARNING  WARNING  WARNING
 // ===========================================
 
-//package main
+package main
 
-//
-//import (
-//	"fmt"
-//	"github.com/jeanfrancoisgratton/customError"
-//	"os"
-//	"strings"
-//)
-//
 //func main() {
 //	if len(os.Args) == 1 {
 //		fmt.Println("No tests are enacted, exiting.")
