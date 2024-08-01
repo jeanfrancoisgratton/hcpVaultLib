@@ -35,6 +35,8 @@ github.com/hashicorp/vault/api v1.14.0 h1:Ah3CFLixD5jmjusOgm8grfN9M0d+Y8fVR2SW0K
 github.com/hashicorp/vault/api v1.14.0/go.mod h1:pV9YLxBGSz+cItFDd8Ii4G17waWOQ32zVjMWHe/cOqk=
 github.com/jeanfrancoisgratton/customError v1.7.2 h1:q6kR3aazIs+CgpmDFNxO8VuLaPSmdN741V1hRIFk/74=
 github.com/jeanfrancoisgratton/customError v1.7.2/go.mod h1:5NSP17pCkzMtgHq3YXAoHSXOouXYXa90Orga1Ylbzzg=
+github.com/jeanfrancoisgratton/helperFunctions v1.5.2 h1:5s/2GrhuzstHLQwfRoSfMURE+KDsWv2/nGkqTajtFks=
+github.com/jeanfrancoisgratton/helperFunctions v1.5.2/go.mod h1:NKtd8XFVlORq8/7tKgFKEFPC6VRufq0tU5cbYg8ziLM=
 github.com/jwalton/gchalk v1.3.0 h1:uTfAaNexN8r0I9bioRTksuT8VGjrPs9YIXR1PQbtX/Q=
 github.com/jwalton/gchalk v1.3.0/go.mod h1:ytRlj60R9f7r53IAElbpq4lVuPOPNg2J4tJcCxtFqr8=
 github.com/jwalton/go-supportscolor v1.1.0/go.mod h1:hFVUAZV2cWg+WFFC4v8pT2X/S2qUUBYMioBD9AINXGs=
