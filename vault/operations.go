@@ -56,7 +56,7 @@ func (vm *VaultManager) UnsealVault(client *api.Client, jsonFilePath string, req
 func (vm *VaultManager) BackupVault(path string) *cerr.CustomError {
 	resp, err := vm.client.Logical().Write("sys/storage/raft/snapshot", nil)
 	if err != nil {
-		return &cerr.CustomError{Title: "Error writing snapshot", Message: err.Error()}
+		return &cerr.CustomError{Title: "Error writing snapshot", Message: err.Error()<}
 	}
 
 	snapshot, ok := resp.Data["snapshot"].(string)
