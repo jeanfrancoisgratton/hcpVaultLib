@@ -1,6 +1,6 @@
 // hcpVaultLib
 // Written by J.F. Gratton <jean-francois@famillegratton.net>
-// Original filename : operations.go
+// Original filename : policies.go
 // Original timestamp : 2024/08/01 19:41
 
 package vault

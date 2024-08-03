@@ -1,6 +1,6 @@
 // hcpVaultLib
 // Written by J.F. Gratton <jean-francois@famillegratton.net>
-// Original filename : structs.go
+// Original filename : init.go
 // Original timestamp : 2024/08/01 14:16
 
 package auth
