@@ -10,7 +10,9 @@ As I intend on expanding the package, now is a good time to publish and document
 ## What's in there:
 
 Mainly functions to:
-- unseal a Vault
-- login with a token
-- login with the userpass method
-- fetch a secret from a given secret engine
+- seal/unseal a Vault
+- login with a token, userpass or approle methods
+- read/write a secret from a given secret engine
+- create/delete/edit/assign policies
+- create/delete users
+- enable/disable auth methods
