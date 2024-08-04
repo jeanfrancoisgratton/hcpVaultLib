@@ -6,5 +6,5 @@
 package hcpVaultLib
 
 func PackageVersion() string {
-	return "HCP Vault Package Version 1.00.00 (2024.08.03"
+	return "HCP Vault Package Version 0.1.2 (2024.08.04)"
 }
