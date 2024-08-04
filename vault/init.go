@@ -7,7 +7,6 @@ package vault
 
 import (
 	"github.com/hashicorp/vault/api"
-	"os"
 )
 
 type VaultOperatorInfo struct {
@@ -15,15 +14,11 @@ type VaultOperatorInfo struct {
 }
 
 type VaultManager struct {
-	client       *api.Client
-	VaultAddress string
+	client *api.Client
 }
 
 func NewVaultManager(client *api.Client, addr string) *VaultManager {
-	if addr == "" {
-		addr = os.Getenv("VAULT_ADDRESS")
-	}
-	return &VaultManager{client: client, VaultAddress: addr}
+	return &VaultManager{client: client}
 }
 
 //
