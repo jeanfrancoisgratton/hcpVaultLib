@@ -5,12 +5,22 @@
 
 package auth
 
-import "github.com/hashicorp/vault/api"
+import (
+	"github.com/hashicorp/vault/api"
+	"os"
+)
 
 type AuthManager struct {
-	client *api.Client
+	vaultServerAddr string
+	client          *api.Client
 }
 
-func NewAuthManager(client *api.Client) *AuthManager {
-	return &AuthManager{client: client}
+func NewAuthManager(client *api.Client, addr string) *AuthManager {
+	if addr == "" {
+		addr = os.Getenv("VAULT_ADDR")
+		if addr == "" {
+			return nil
+		}
+	}
+	return &AuthManager{client: client, vaultServerAddr: addr}
 }
