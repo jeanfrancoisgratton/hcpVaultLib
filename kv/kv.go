@@ -38,51 +38,120 @@ func (km *KVManager) getEngineVersion(path string) (int, *cerr.CustomError) {
 }
 
 // ReadSecret reads a secret from the KV engine at the given path
-func (km *KVManager) ReadSecret(path string) (map[string]interface{}, *cerr.CustomError) {
-	version, ce := km.getEngineVersion(path)
-	if ce != nil {
-		return nil, ce
+//
+//	func (km *KVManager) ReadSecret(path string) (map[string]interface{}, *cerr.CustomError) {
+//		version, ce := km.getEngineVersion(path)
+//		if ce != nil {
+//			return nil, ce
+//		}
+//
+//		var secret *api.Secret
+//		var err error
+//		if version == 2 {
+//			secret, err = km.client.Logical().Read("secret/data/" + path)
+//		} else {
+//			secret, err = km.client.Logical().Read("secret/" + path)
+//		}
+//		if err != nil {
+//			return nil, &cerr.CustomError{Title: "Unable to read secret", Message: err.Error()}
+//		}
+//		if secret == nil {
+//			return nil, &cerr.CustomError{Title: fmt.Sprintf("no data found at path: %s", path)}
+//		}
+//
+//		if version == 2 {
+//			return secret.Data["data"].(map[string]interface{}), nil
+//		}
+//		return secret.Data, nil
+//	}
+func (km *KVManager) ReadSecret(path, field string) (interface{}, *cerr.CustomError) {
+	engineVersion, err := km.getEngineVersion(path)
+	var nErr error
+	if err != nil {
+		return nil, err
 	}
 
 	var secret *api.Secret
-	var err error
-	if version == 2 {
-		secret, err = km.client.Logical().Read("secret/data/" + path)
+	if engineVersion == 2 {
+		secret, nErr = km.client.Logical().Read("secret/data/" + path)
 	} else {
-		secret, err = km.client.Logical().Read("secret/" + path)
+		secret, nErr = km.client.Logical().Read("secret/" + path)
 	}
-	if err != nil {
-		return nil, &cerr.CustomError{Title: "Unable to read secret", Message: err.Error()}
+
+	if nErr != nil {
+		return nil, &cerr.CustomError{Title: "Unable to read secret", Message: nErr.Error()}
 	}
-	if secret == nil {
+	if secret == nil || secret.Data == nil {
 		return nil, &cerr.CustomError{Title: fmt.Sprintf("no data found at path: %s", path)}
 	}
 
-	if version == 2 {
-		return secret.Data["data"].(map[string]interface{}), nil
+	var data map[string]interface{}
+	if engineVersion == 2 {
+		data = secret.Data["data"].(map[string]interface{})
+	} else {
+		data = secret.Data
 	}
-	return secret.Data, nil
+
+	if value, ok := data[field]; ok {
+		return value, nil
+	}
+
+	return nil, &cerr.CustomError{Title: fmt.Sprintf("no data found at path: %s", path)}
 }
 
 // WriteSecret writes a secret to the KV engine at the given path
-func (km *KVManager) WriteSecret(path string, data map[string]interface{}) *cerr.CustomError {
-	version, ce := km.getEngineVersion(path)
-	if ce != nil {
-		return ce
+//func (km *KVManager) WriteSecret(path string, data map[string]interface{}) *cerr.CustomError {
+//	version, ce := km.getEngineVersion(path)
+//	if ce != nil {
+//		return ce
+//	}
+//
+//	var writeData map[string]interface{}
+//	var err error
+//	if version == 2 {
+//		writeData = map[string]interface{}{
+//			"data": data,
+//		}
+//		_, err = km.client.Logical().Write("secret/data/"+path, writeData)
+//	} else {
+//		_, err = km.client.Logical().Write("secret/"+path, data)
+//	}
+//	if err != nil {
+//		return &cerr.CustomError{Title: "Unable to write secret", Message: err.Error()}
+//	}
+//	return nil
+//}
+
+func (km *KVManager) WriteSecret(path, field string, value interface{}) *cerr.CustomError {
+	var nErr error
+	engineVersion, err := km.getEngineVersion(path)
+	if err != nil {
+		return err
+	}
+
+	data := map[string]interface{}{
+		field: value,
 	}
 
 	var writeData map[string]interface{}
-	var err error
-	if version == 2 {
+	if engineVersion == 2 {
 		writeData = map[string]interface{}{
 			"data": data,
 		}
-		_, err = km.client.Logical().Write("secret/data/"+path, writeData)
 	} else {
-		_, err = km.client.Logical().Write("secret/"+path, data)
+		writeData = data
 	}
-	if err != nil {
-		return &cerr.CustomError{Title: "Unable to write secret", Message: err.Error()}
+
+	var writePath string
+	if engineVersion == 2 {
+		writePath = "secret/data/" + path
+	} else {
+		writePath = "secret/" + path
+	}
+
+	_, nErr = km.client.Logical().Write(writePath, writeData)
+	if nErr != nil {
+		return &cerr.CustomError{Title: "Unable to write secret", Message: nErr.Error()}
 	}
 	return nil
 }
