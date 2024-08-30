@@ -24,7 +24,7 @@ func (am *AuthManager) LoginWithToken(token string) {
 	am.client.SetToken(token)
 }
 
-func (am *AuthManager) LoginWithUserPass(username, password string) (string, error) {
+func (am *AuthManager) LoginWithUserPass(username, password string) (string, *cerr.CustomError) {
 	data := map[string]interface{}{
 		"password": password,
 	}
