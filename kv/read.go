@@ -43,7 +43,7 @@ import (
 //}
 
 func (km *KVManager) ReadSecret(path, field string, version int) (interface{}, *cerr.CustomError) {
-	//var cErr *cerr.CustomError
+	var cErr *cerr.CustomError
 	var secret *api.Secret
 	var err error
 
@@ -54,6 +54,11 @@ func (km *KVManager) ReadSecret(path, field string, version int) (interface{}, *
 
 	if engineVersion == 2 {
 		secretPath := fmt.Sprintf("secret/data/%s", path)
+		if version == -1 { // <-- this means that the calling function wants the latest version of the secret, which is sensible
+			if version, cErr = km.GetLatestVersion(path); cErr != nil {
+				return nil, cErr
+			}
+		}
 		if version > 0 {
 			secretPath = fmt.Sprintf("%s?version=%d", secretPath, version)
 		}
