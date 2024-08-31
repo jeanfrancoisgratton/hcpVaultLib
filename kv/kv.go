@@ -89,3 +89,29 @@ func (km *KVManager) ListSecrets(path string) ([]string, *cerr.CustomError) {
 	}
 	return keyList, nil
 }
+
+func (km *KVManager) GetLatestVersion(path string) (int, *cerr.CustomError) {
+	engineVersion, err := km.getEngineVersion(path)
+	if err != nil {
+		return 0, err
+	}
+
+	if engineVersion != 2 {
+		return 0, &cerr.CustomError{Title: "Unable to get secret", Message: "versioning is only supported in KV version 2"}
+	}
+
+	secret, nE := km.client.Logical().Read("secret/metadata/" + path)
+	if nE != nil {
+		return 0, &cerr.CustomError{Title: "Unable to read secret", Message: nE.Error()}
+	}
+
+	if secret == nil || secret.Data == nil {
+		return 0, &cerr.CustomError{Title: "Unable to read secret", Message: fmt.Sprintf("metadata for secret at path %s not found", path)}
+	}
+
+	if version, ok := secret.Data["current_version"].(int); ok {
+		return version, nil
+	}
+
+	return 0, &cerr.CustomError{Title: "Unable to read secret", Message: fmt.Sprintf("unable to determine the latest version for secret %s", path)}
+}
