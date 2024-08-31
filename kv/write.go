@@ -5,7 +5,7 @@ import cerr "github.com/jeanfrancoisgratton/customError"
 // WriteSecret writes a secret to the KV engine at the given path
 func (km *KVManager) WriteSecret(path, field string, value interface{}) *cerr.CustomError {
 	var nErr error
-	engineVersion, err := km.getEngineVersion(path)
+	engineVersion, err := km.GetEngineVersion(path)
 	if err != nil {
 		return err
 	}

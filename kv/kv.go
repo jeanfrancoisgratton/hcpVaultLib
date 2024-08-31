@@ -13,8 +13,8 @@ import (
 	"strings"
 )
 
-// getEngineVersion determines the KV engine version for the given path
-func (km *KVManager) getEngineVersion(path string) (int, *cerr.CustomError) {
+// GetEngineVersion determines the KV engine version for the given path
+func (km *KVManager) GetEngineVersion(path string) (int, *cerr.CustomError) {
 	mounts, err := km.client.Sys().ListMounts()
 	if err != nil {
 		return 0, &cerr.CustomError{Title: "Unable to list mounts", Message: err.Error()}
@@ -39,7 +39,7 @@ func (km *KVManager) getEngineVersion(path string) (int, *cerr.CustomError) {
 
 // DeleteSecret deletes a secret from the KV engine at the given path
 func (km *KVManager) DeleteSecret(path string) *cerr.CustomError {
-	version, ce := km.getEngineVersion(path)
+	version, ce := km.GetEngineVersion(path)
 	if ce != nil {
 		return ce
 	}
@@ -58,7 +58,7 @@ func (km *KVManager) DeleteSecret(path string) *cerr.CustomError {
 
 // ListSecrets lists the secrets at the given path
 func (km *KVManager) ListSecrets(path string) ([]string, *cerr.CustomError) {
-	version, ce := km.getEngineVersion(path)
+	version, ce := km.GetEngineVersion(path)
 	if ce != nil {
 		return nil, ce
 	}
@@ -91,7 +91,7 @@ func (km *KVManager) ListSecrets(path string) ([]string, *cerr.CustomError) {
 }
 
 func (km *KVManager) GetLatestVersion(path string) (int, *cerr.CustomError) {
-	engineVersion, err := km.getEngineVersion(path)
+	engineVersion, err := km.GetEngineVersion(path)
 	if err != nil {
 		return 0, err
 	}

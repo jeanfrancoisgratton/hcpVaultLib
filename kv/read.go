@@ -8,7 +8,7 @@ import (
 
 // ReadSecret reads a secret from the KV engine at the given path
 //func (km *KVManager) ReadSecret(path, field string) (interface{}, *cerr.CustomError) {
-//	engineVersion, err := km.getEngineVersion(path)
+//	engineVersion, err := km.GetEngineVersion(path)
 //	var nErr error
 //	if err != nil {
 //		return nil, err
@@ -43,11 +43,11 @@ import (
 //}
 
 func (km *KVManager) ReadSecret(path, field string, version int) (interface{}, *cerr.CustomError) {
-	var cErr *cerr.CustomError
+	//var cErr *cerr.CustomError
 	var secret *api.Secret
 	var err error
 
-	engineVersion, cErr := km.getEngineVersion(path)
+	engineVersion, cErr := km.GetEngineVersion(path)
 	if cErr != nil {
 		return nil, cErr
 	}
